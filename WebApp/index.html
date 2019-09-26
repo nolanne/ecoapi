@@ -2,34 +2,38 @@
 <html>
     <head>
         <title>App</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <script src="http://127.0.0.1:8080/ecoapi/API/ecoapi.js"></script>
         <script>
             
-            let ajaxOperation = function()
+            let paysTraiteDatas = function( paysJSON )
             {
-                let doAjax = new XMLHttpRequest();
-                let urlVar = '';
-                doAjax.open( 'GET', 'http://localhost/ecoapi/API/index.php?' + urlVar, true );
-                
-                doAjax.onreadystatechange = function(){
-                    if( doAjax.readyState == 4 && doAjax.status == 200 )
-                    {
-                        let respJson = JSON.parse( doAjax.responseText );
-                        console.log( respJson );
-                        document.querySelector( 'span' ).innerHTML = respJson.commerces[0][1];
-                    }
-                }
-                
-                doAjax.send();
+                console.log( paysJSON );
+                document.querySelector( 'span' ).innerHTML = paysJSON.Pays[0][1];
             }
             
             window.onload = function()
             {
-                ajaxOperation();
+                document.querySelector('a').onclick = function(e)
+                {
+                    e.preventDefault(); // Annule le rechargement de la page
+                    
+                    ecoapi.getPays( this.name, '123456', function( datas ){
+                        
+                        paysTraiteDatas( datas );
+                        
+                    });
+                }
+                
+                
             }
             
         </script>
     </head>
     <body>
+        
+        <a href="" name="pays">Pays</a>
+        
         <span></span>
     </body>
 </html>
